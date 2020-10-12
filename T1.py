@@ -158,13 +158,13 @@ def data_to_list(path):
 # This method plot the cost function
 # cost_list: a list of all the costs
 # return the graphs
-def display_cost(cost_list):
+def display_cost(cost_list,title="Costo durante el entrenamiento de una red"):
     x = []
     val = 0
     for i in cost_list:
         x.append(val)
         val += 1
-    plt.title("Costo durante el entrenamiento de una red")
+    plt.title(title)
     plt.xlabel("Cantidad de epochs realizados")
     plt.ylabel("Coste de la iteracion")
     plt.plot(x, cost_list)
@@ -176,7 +176,7 @@ def display_cost(cost_list):
 # k: number of subsets
 # returns a list with statistics obtained from the analisis
 def kfold(dataset, k, n_x, n_h, n_y, num_of_iters, learning_rate, m):
-    print("Running Kfold Validation !!!")
+    print("Running Kfold Validation . . .")
     shuffle(dataset)
     groups = []
     n_test = len(dataset) // k
@@ -203,6 +203,10 @@ def kfold(dataset, k, n_x, n_h, n_y, num_of_iters, learning_rate, m):
         Y_iris_int = encode_to_ndarray(Y_iris, iris_encoded)
 
         Iris_parameters, cost_list = iris_model(X_iris, Y_iris_int, n_x, n_h, n_y, num_of_iters, learning_rate, m)
+        #display_cost(cost_list,"Costo entrenamiendo Kfold"+"("+str(k)+")")
+        #print("CM Kfold: ")
+        #CM=confusion_matrix(Iris_parameters,i)
+
         X_iris, Y_iris = decode_data(test_data)
 
         for n_test in range(len(X_iris[0])):
@@ -247,10 +251,14 @@ def kfold(dataset, k, n_x, n_h, n_y, num_of_iters, learning_rate, m):
     mean = statistics.mean(mean_list)
     median = statistics.median(median_list)
     print("The statistics were the following: ")
+    print("------------------------------------")
     print("Number of sets: " + str(k))
     print("Total elements in each set:" + str(len(predictions[0])))
     print("Mean: " + str(mean))
+    print("Mean as %: "+ str(mean/len(groups[0])))
     print("Median: " + str(median))
+    print("Median as %: "+ str(median/len(groups[0])))
+    print("-------------------------------------")
     return predictions
 
 

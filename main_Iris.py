@@ -22,7 +22,9 @@ def main():
     learning_rate = 0.01
 
     # define a model
+    print("Training the parameters . . .")
     trained_parameters, cost_list = iris_model(X, Y_int, n_x, n_h, n_y, number_of_iterations, learning_rate,m)
+    print("Parameters trained")
     display_cost(cost_list)
     CM = confusion_matrix(trained_parameters, iris_set)
     kfold(iris_set,3,n_x,n_h,n_y,10000,learning_rate,m)
